@@ -3,6 +3,15 @@ import { useSocket } from './socket/socket';
 import { getStyles, lightColors, darkColors } from './styles';
 import { ThemeContext, useTheme } from './context/ThemeContext';
 import { useWindowSize } from './hooks/useWindowSize';
+import * as Sentry from "@sentry/react";
+import { BrowserTracing } from "@sentry/tracing";
+
+Sentry.init({
+  dsn: "https://your-sentry-dsn",
+  integrations: [new BrowserTracing()],
+  tracesSampleRate: 1.0,
+});
+
 
 const EMOJI_REACTIONS = ['👍', '❤️', '😂', '😮', '😢'];
 

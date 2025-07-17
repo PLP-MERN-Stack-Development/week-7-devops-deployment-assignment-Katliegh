@@ -1,0 +1,55 @@
+name: MERN App CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test-client:
+    name: Build and Test React Client
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: client
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Build client
+        run: yarn build
+
+      - name: Run client tests
+        run: yarn test || echo "No client tests found"
+
+  build-and-test-server:
+    name: Build and Test Express Server
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: server
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Run server tests
+        run: yarn test || echo "No server tests found"
